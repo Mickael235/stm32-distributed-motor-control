@@ -1,0 +1,36 @@
+# STM32CubeIDE / Eclipse
+.metadata/
+.settings/
+.project
+.cproject
+.mxproject
+*.launch
+
+# Build outputs
+Debug/
+Release/
+build/
+cmake-build-*/
+*.elf
+*.hex
+*.bin
+*.map
+*.o
+*.d
+*.su
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs / generated
+*.log
+coverage/

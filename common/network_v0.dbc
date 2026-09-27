@@ -1,0 +1,7 @@
+VERSION "0.1"
+
+NS_ :
+BS_:
+BU_: MotorNode SupervisorNode
+
+// DBC initial — à compléter pendant la spécification CAN.
