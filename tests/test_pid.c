@@ -384,6 +384,54 @@ static void test_invalid_sample_time(void)
 }
 
 
+/*
+ * Test 12
+ * Terme derive :
+ *
+ * Kd = 2
+ * Ts = 0.5 s
+ *
+ * Premier appel :
+ * erreur = 4
+ * D = 2 * (4 - 0) / 0.5 = 16
+ *
+ * Deuxieme appel :
+ * erreur = 1
+ * D = 2 * (1 - 4) / 0.5 = -12
+ */
+static void test_derivative_term(void)
+{
+    PID_Controller_t pid;
+
+    PID_Init(
+        &pid,
+        0.0f,
+        0.0f,
+        2.0f,
+        0.5f,
+        -100.0f,
+        100.0f
+    );
+
+    float output1 = PID_Update(
+        &pid,
+        4.0f,
+        0.0f
+    );
+
+    float output2 = PID_Update(
+        &pid,
+        1.0f,
+        0.0f
+    );
+
+    assert_float_close(output1, 16.0f);
+    assert_float_close(output2, -12.0f);
+
+    printf("[PASS] derivative term\n");
+}
+
+
 int main(void)
 {
     printf("=== PID UNIT TESTS ===\n\n");
@@ -391,6 +439,7 @@ int main(void)
     test_zero_error();
     test_positive_error();
     test_negative_error();
+    test_derivative_term();
 
     test_positive_saturation();
     test_negative_saturation();
