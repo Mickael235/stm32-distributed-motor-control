@@ -1,7 +1,86 @@
 VERSION "0.1"
 
 NS_ :
-BS_:
-BU_: MotorNode SupervisorNode
+    CM_
+    VAL_
+    BO_TX_BU_
 
-// DBC initial — à compléter pendant la spécification CAN.
+BS_:
+
+BU_: MotorNode SupervisorNode SafetyNode
+
+
+BO_ 16 EMERGENCY_FAULT: 3 Vector__XXX
+ SG_ SourceNode : 0|8@1+ (1,0) [0|255] "" MotorNode,SupervisorNode,SafetyNode
+ SG_ FaultCode : 8|16@1+ (1,0) [0|65535] "" MotorNode,SupervisorNode,SafetyNode
+
+
+BO_ 272 MOTOR_SPEED_CMD: 2 SupervisorNode
+ SG_ TargetRPM : 0|16@1- (0.1,0) [-300|300] "rpm" MotorNode
+
+
+BO_ 288 SYSTEM_COMMAND: 1 SupervisorNode
+ SG_ Command : 0|8@1+ (1,0) [0|3] "" MotorNode
+
+
+BO_ 528 MOTOR_SPEED: 2 MotorNode
+ SG_ MeasuredRPM : 0|16@1- (0.1,0) [-300|300] "rpm" SupervisorNode
+
+
+BO_ 1040 MOTOR_STATUS: 1 MotorNode
+ SG_ MotorState : 0|8@1+ (1,0) [0|3] "" SupervisorNode
+
+
+BO_ 1056 MOTOR_HEARTBEAT: 1 MotorNode
+ SG_ AliveCounter : 0|8@1+ (1,0) [0|255] "" SupervisorNode
+
+
+BO_ 1072 SUPERVISOR_HEARTBEAT: 1 SupervisorNode
+ SG_ AliveCounter : 0|8@1+ (1,0) [0|255] "" MotorNode
+
+
+BO_ 1552 MOTOR_DIAGNOSTIC: 4 MotorNode
+ SG_ FaultCode : 0|16@1+ (1,0) [0|65535] "" SupervisorNode
+ SG_ Severity : 16|8@1+ (1,0) [0|3] "" SupervisorNode
+ SG_ Detail : 24|8@1+ (1,0) [0|255] "" SupervisorNode
+
+
+BO_TX_BU_ 16 : MotorNode,SupervisorNode,SafetyNode;
+
+
+CM_ BO_ 16 "0x010 - Defaut critique / arret d'urgence.";
+CM_ BO_ 272 "0x110 - Consigne de vitesse moteur.";
+CM_ BO_ 288 "0x120 - Commande STOP/PREPARE/START/RESET.";
+CM_ BO_ 528 "0x210 - Vitesse mesuree du moteur.";
+CM_ BO_ 1040 "0x410 - Etat courant du Motor Node.";
+CM_ BO_ 1056 "0x420 - Heartbeat du Motor Node.";
+CM_ BO_ 1072 "0x430 - Heartbeat du Supervisor Node.";
+CM_ BO_ 1552 "0x610 - Diagnostic moteur.";
+
+
+VAL_ 16 SourceNode
+    1 "MOTOR_NODE"
+    2 "SUPERVISOR_NODE"
+    3 "SAFETY_NODE"
+;
+
+VAL_ 288 Command
+    0 "STOP"
+    1 "PREPARE"
+    2 "START"
+    3 "RESET"
+;
+
+VAL_ 1040 MotorState
+    0 "STOP"
+    1 "READY"
+    2 "RUN"
+    3 "FAULT"
+;
+
+VAL_ 1552 Severity
+    0 "INFO"
+    1 "WARNING"
+    2 "ERROR"
+    3 "CRITICAL"
+;
