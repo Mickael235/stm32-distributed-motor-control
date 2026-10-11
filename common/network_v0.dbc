@@ -20,7 +20,7 @@ BO_ 272 MOTOR_SPEED_CMD: 2 SupervisorNode
 
 
 BO_ 288 SYSTEM_COMMAND: 1 SupervisorNode
- SG_ Command : 0|8@1+ (1,0) [0|255] "" MotorNode
+ SG_ Command : 0|8@1+ (1,0) [0|3] "" MotorNode
 
 
 BO_ 528 MOTOR_SPEED: 2 MotorNode
@@ -50,7 +50,7 @@ BO_TX_BU_ 16 : MotorNode,SupervisorNode,SafetyNode;
 
 CM_ BO_ 16 "0x010 - Defaut critique / arret d'urgence.";
 CM_ BO_ 272 "0x110 - Consigne de vitesse moteur.";
-CM_ BO_ 288 "0x120 - Commande de haut niveau STOP/PREPARE/START/RESET.";
+CM_ BO_ 288 "0x120 - Commande STOP/PREPARE/START/RESET.";
 CM_ BO_ 528 "0x210 - Vitesse mesuree du moteur.";
 CM_ BO_ 1040 "0x410 - Etat courant du Motor Node.";
 CM_ BO_ 1056 "0x420 - Heartbeat du Motor Node.";
