@@ -1,0 +1,84 @@
+name: Unit Tests
+
+on:
+  push:
+    branches:
+      - "**"
+
+  pull_request:
+    branches:
+      - develop
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    name: C Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show GCC version
+        run: gcc --version
+
+      - name: Create build directory
+        run: mkdir -p build
+
+      # ========================================================
+      # PID
+      # ========================================================
+
+      - name: Build PID tests
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror \
+            -Ifirmware/motor_node/include \
+            firmware/motor_node/src/pid.c \
+            tests/test_pid.c \
+            -lm \
+            -o build/test_pid
+
+      - name: Run PID tests
+        run: ./build/test_pid
+
+      # ========================================================
+      # FSM
+      # ========================================================
+
+      - name: Build FSM tests
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror \
+            -Ifirmware/supervisor_node/include \
+            firmware/supervisor_node/src/fsm.c \
+            tests/test_fsm.c \
+            -o build/test_fsm
+
+      - name: Run FSM tests
+        run: ./build/test_fsm
+
+      # ========================================================
+      # CAN Protocol
+      # ========================================================
+
+      - name: Build CAN protocol tests
+        run: |
+          gcc -std=c11 -Wall -Wextra -Werror \
+            -Icommon \
+            common/can_protocol.c \
+            tests/test_can_protocol.c \
+            -lm \
+            -o build/test_can_protocol
+
+      - name: Run CAN protocol tests
+        run: ./build/test_can_protocol
+
+      # ========================================================
+      # Summary
+      # ========================================================
+
+      - name: CI completed
+        run: echo "All C unit tests passed."
